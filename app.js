@@ -15,7 +15,7 @@ mongoose.connect(process.env.DB_URL)
     app.use(bodyParser.urlencoded({extended:true}));
     app.use(cookiParse());
     app.use("/user",UserRouter);
-    app.listen(3000,()=>{
+    app.listen(process.env.PORT,()=>{
         console.log("server started...");
     });
 })
