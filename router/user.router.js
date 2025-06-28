@@ -1,6 +1,9 @@
 import express from "express";
 import {body} from "express-validator";
-import {signUp,verification,login} from "../controller/user.controller.js";
+import multer from "multer";
+const upload = multer({dest:"public/profile"});
+import {auth} from "../middleware/auth.js";
+import {signUp,verification,login,list,createProfile,fetchProfile} from "../controller/user.controller.js";
 const router = express.Router();
 
 router.post("/",
@@ -12,4 +15,7 @@ router.post("/",
     signUp);
 router.post("/verification",verification);
 router.post("/login",login);
+router.get("/list",list);
+router.patch("/profile",auth,upload.single("imageName"),createProfile);
+router.get("/",fetchProfile);
 export default router;

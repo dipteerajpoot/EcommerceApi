@@ -18,7 +18,10 @@ const UserSchema = new mongoose.Schema({
     contact:{
         type:String,
     },
-        
+    profile:{
+        imageName:String,
+        address:String
+    },
     isVerified:{
         type:Boolean,
         default:false

@@ -4,7 +4,56 @@ import nodeMailer from "nodemailer"
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
+import { request, response } from "express";
 dotenv.config();
+
+export const fetchProfile = async(request,response)=>{
+    try {
+        let user = await User.findById({_id:request.user.userId});
+        user.profile.imageName = "http://localhost:3000/"+user.profile.imageName;
+        return response.status(201).json({user});
+
+    } catch (error) {
+        console.log(error);
+        return response.status(500).json({error:"Internel server error"});
+    }
+}
+
+
+export const createProfile = async(request,response)=>{
+    try {
+       let user = await User.findById(request.user.userId);
+        user.profile.imageName = request.file.filename;
+        user.profile.address = request.body.address;
+        user.name = request.body.name??user.name;
+        user.contact = request.body.contact??user.contact;
+        user.save();
+
+        //logik - 2
+        // let user = await User.updateOne({_id:request.user.userId},{$set:{profile:{imageName:request.file.fileName,address:request.body.address},name:request.body.name,contact:request.body.contact}});
+
+        return response.status(201).json({message:"Prfile Updated"})
+
+    } catch (error) {
+          console.log(error);
+        return response.status(500).json({error:"Internel server error"});
+    }
+}
+
+export const list = async(request,response)=> {
+    try {
+        let user = await User.find();
+        if(!user)
+            return response.status(404).json({message:"No user availabale"});
+
+            return response.status(200).json({message:"Here is user list ",user});
+
+
+    } catch (error) {
+        console.log(error);
+        return response.status(500).json({error:"Internel server error"});
+    }
+}
 
 export const login =async(request, response) => {
     try {
@@ -38,7 +87,6 @@ export const signUp = async(request, response) => {
         if (!validationErr.isEmpty()) {
             return response.status(401).json({ error: "Bad reques|| Invalid Data", errorMassage: validationErr });
         }
-
         let { name, email, password, contact } = request.body;
         let saltKey = bcrypt.genSaltSync(12);
         password = bcrypt.hashSync(password,saltKey);
