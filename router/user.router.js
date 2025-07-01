@@ -16,6 +16,6 @@ router.post("/",
 router.post("/verification",verification);
 router.post("/login",login);
 router.get("/list",list);
-router.patch("/profile",auth,upload.single("imageName"),createProfile);
-router.get("/",fetchProfile);
+router.patch("/profile/:id",upload.single("imageName"),createProfile);
+router.get("/:userId",fetchProfile);
 export default router;

@@ -9,7 +9,7 @@ dotenv.config();
 
 export const fetchProfile = async(request,response)=>{
     try {
-        let user = await User.findById({_id:request.user.userId});
+        let user = await User.findById({_id:request.params.userId});
         user.profile.imageName = "http://localhost:3000/"+user.profile.imageName;
         return response.status(201).json({user});
 
@@ -22,7 +22,9 @@ export const fetchProfile = async(request,response)=>{
 
 export const createProfile = async(request,response)=>{
     try {
-       let user = await User.findById(request.user.userId);
+        let {id} = request.params;
+        console.log(id);
+       let user = await User.findById(id);
         user.profile.imageName = request.file.filename;
         user.profile.address = request.body.address;
         user.name = request.body.name??user.name;

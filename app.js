@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import UserRouter from "./router/user.router.js"
+import UserRouter from "./router/user.router.js";
+import ProductRouter from "./router/product.router.js";
 import express from "express"
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -17,6 +18,7 @@ mongoose.connect(process.env.DB_URL)
         app.use(bodyParser.urlencoded({ extended: true }));
         app.use(cookiParse());
         app.use("/user", UserRouter);
+        app.use("/product",ProductRouter)
         app.listen(process.env.PORT, () => {
             console.log("server started...");
         });
