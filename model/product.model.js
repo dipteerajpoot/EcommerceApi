@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-let ProduSchema = mongoose.Schema({
+let ProductSchema = mongoose.Schema({
     id: Number,
     title: String,
     description: String,
@@ -15,5 +15,5 @@ let ProduSchema = mongoose.Schema({
     thumbnail: String
 });
 
-export const Product = mongoose.model("product", ProduSchema);
+export const Product = mongoose.model("product", ProductSchema);
 
