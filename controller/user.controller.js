@@ -7,6 +7,16 @@ import dotenv from "dotenv";
 import { request, response } from "express";
 dotenv.config();
 
+export const logout = async(request,response)=> {
+    try {
+        response.clearCookie("token");
+        return response.status(200).json({ message: "LogOut Successfully"});
+    } catch (error) {
+         console.log(error);
+        return response.status(500).json({error:"Internel server error"});
+    }
+}
+
 export const fetchProfile = async(request,response)=>{
     try {
         let user = await User.findById({_id:request.params.userId});
@@ -41,6 +51,8 @@ export const createProfile = async(request,response)=>{
         return response.status(500).json({error:"Internel server error"});
     }
 }
+
+
 
 export const list = async(request,response)=> {
     try {
